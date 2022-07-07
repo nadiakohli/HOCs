@@ -13,46 +13,19 @@ const withDevice = (WrappedComponent) => {
       this.handleChangeDevice = this.handleChangeDevice.bind(this);
     };
 
-
     handleChangeDevice() {
       const screenWidth = window.innerWidth;
-      if (screenWidth < 480) return this.setState({
-        isMobile: true,
-        isTablet: false,
-        isDesktop: false,
-        isPrinting: false,
-      });
-
-      if (screenWidth > 480 && screenWidth < 780) return this.setState({
-        isMobile: false,
-        isTablet: true,
-        isDesktop: false,
-        isPrinting: false,
-      });
-
-      if (screenWidth > 780 && screenWidth < 1280) return this.setState({
-        isMobile: false,
-        isTablet: false,
-        isDesktop: true,
-        isPrinting: false,
-      });
-
-      return this.setState({
-        isMobile: false,
-        isTablet: false,
-        isDesktop: false,
-        isPrinting: true,
+      this.setState({
+        isMobile: screenWidth < 480,
+        isTablet: screenWidth > 480 && screenWidth < 780,
+        isDesktop: screenWidth > 780 && screenWidth < 1280,
+        isPrinting: screenWidth > 1280,
       });
     };
 
     componentDidMount() {
       window.addEventListener('resize', this.handleChangeDevice);
-
-      const screenWidth = window.innerWidth;
-      if (screenWidth < 480) return this.setState({ isMobile: true });
-      if (screenWidth > 480 && screenWidth < 780) return this.setState({ isTablet: true });
-      if (screenWidth > 780 && screenWidth < 1280) return this.setState({ isDesktop: true });
-      return this.setState({ isPrinting: true });
+      this.handleChangeDevice();
     };
 
     componentWillUnmount() {

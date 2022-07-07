@@ -11,14 +11,11 @@ const withMedia = (WrappedComponent, media, option) => {
     };
 
     handleChangeMatchMedia() {
-      if (window.matchMedia(media).matches) {
-        this.setState({ hasMedia: true });
-      };
+      this.setState({ hasMedia: window.matchMedia(media).matches });
     };
 
     componentDidMount() {
       this.handleChangeMatchMedia();
-
       window.addEventListener('resize', this.handleChangeMatchMedia);
     };
 
